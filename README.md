@@ -3,4 +3,4 @@ This repository contains a single python file (structureslab.py) with a set of f
 All the necessary data is contained within the program either in lists or variables.
 ## Motivation
 This program was made in order to meet the requirements of a structural mechanics laboratory - certain graphs and results
-needed to be produced. Saving this to GIT saves me having to email it from my desktop to my university account constantly.
+needed to be produced. Saving this to GitHub saves me having to email it from my desktop to my university account constantly.
