@@ -60,7 +60,7 @@ def SMA(a_array, b_array, y_array, z_array):
 def plotStrainData(m_array, ex1, ex2, ex3, ex4):
     
     yerr4 = 0.00001
-    pred_plot_x = np.arange(1, 30, 2)
+    pred_plot_x = np.arange(1, 30, 4)
     
     M = [9.81*x for x in m_array]
     
@@ -94,22 +94,23 @@ def plotStrainData(m_array, ex1, ex2, ex3, ex4):
 
     
     plt.plot(M, ex1, 'b+', label = "Raw Data")
-    plt.errorbar(M, ex1, yerr = yerr4, fmt = "none", ecolor = "c")
+    plt.errorbar(pred_plot_x, pred_plot_y1, yerr = yerr4, fmt = "none", ecolor = "g")
+    plt.plot(pred_plot_x, pred_plot_y1, "g-", label="Predicted")
     plt.xlabel("Load, N")
     plt.ylabel("Strain")
     plt.title("Gauge 1")
     plt.grid()
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex1, 1))(np.unique(M)), 'g-', label = "Best Fit")
-    plt.plot(pred_plot_x, pred_plot_y1, "r-", label = "Predicted")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex1, 1))(np.unique(M)), 'r-', label = "Best Fit")
+    #plt.plot(pred_plot_x, pred_plot_y1, "r-", label = "Predicted")
     plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
     plt.legend(loc = "upper left")
     plt.savefig("Gauge1 graph.png")
     plt.show()
     
     plt.plot(M, ex2, 'b+', label = "Raw Data")
-    plt.errorbar(M, ex2, yerr = yerr4, fmt = "none", ecolor = "c")
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex2, 1))(np.unique(M)), 'g-', label = "Best Fit")
-    plt.plot(pred_plot_x, pred_plot_y2, "r-", label = "Predicted")
+    plt.errorbar(pred_plot_x, pred_plot_y2, yerr = yerr4, fmt = "none", ecolor = "g")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex2, 1))(np.unique(M)), 'r-', label = "Best Fit")
+    plt.plot(pred_plot_x, pred_plot_y2, "g-", label = "Predicted")
     plt.xlabel("Load, N")
     plt.ylabel("Strain")
     plt.title("Gauge 2")
@@ -120,9 +121,9 @@ def plotStrainData(m_array, ex1, ex2, ex3, ex4):
     plt.show()
     
     plt.plot(M, ex3, 'b+', label = "Raw Data")
-    plt.errorbar(M, ex3, yerr = yerr4, fmt = "none", ecolor = "c")
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex3, 1))(np.unique(M)), 'g-', label = "Best Fit")
-    plt.plot(pred_plot_x, pred_plot_y3, "r-", label = "Predicted")
+    plt.errorbar(pred_plot_x, pred_plot_y3, yerr = yerr4, fmt = "none", ecolor = "g")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex3, 1))(np.unique(M)), 'r-', label = "Best Fit")
+    plt.plot(pred_plot_x, pred_plot_y3, "g-", label = "Predicted")
     plt.xlabel("Load, N")
     plt.ylabel("Strain")
     plt.title("Gauge 3")
@@ -133,9 +134,9 @@ def plotStrainData(m_array, ex1, ex2, ex3, ex4):
     plt.show()
     
     plt.plot(M, ex4, 'b+', label = "Raw Data")
-    plt.errorbar(M, ex4, yerr = yerr4, fmt = "none", ecolor = "c")
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex4, 1))(np.unique(M)), 'g-', label = "Best Fit")
-    plt.plot(pred_plot_x, pred_plot_y4, "r-", label = "Predicted")
+    plt.errorbar(pred_plot_x, pred_plot_y4, yerr = yerr4, fmt = "none", ecolor = "g")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex4, 1))(np.unique(M)), 'r-', label = "Best Fit")
+    plt.plot(pred_plot_x, pred_plot_y4, "g-", label = "Predicted")
     plt.xlabel("Load, N")
     plt.ylabel("Strain")
     plt.title("Gauge 4")
