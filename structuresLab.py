@@ -26,8 +26,6 @@ wb = [0.36, 0.8, 1.2, 1.62, 2.04, 2.47, 2.07, 1.67, 1.25, 0.84, 0.45]
 
 l_beam = 643.67
 
-E_vb = []
-E_wb = []
 
 def subArea(a_array, b_array):
     area_array = []
@@ -61,6 +59,9 @@ def SMA(a_array, b_array, y_array, z_array):
 
 def plotStrainData(m_array, ex1, ex2, ex3, ex4):
     
+    yerr4 = 0.00001
+    pred_plot_x = np.arange(1, 30, 2)
+    
     M = [9.81*x for x in m_array]
     
     ex1 = [x*10**(-6) for x in ex1]
@@ -79,46 +80,6 @@ def plotStrainData(m_array, ex1, ex2, ex3, ex4):
         col3.append(round(ex3[i]/M[i], 3))
         col4.append(round(ex4[i]/M[i], 3))
     
-    plt.plot(M, ex1, 'b+')
-    plt.xlabel("Load, N")
-    plt.ylabel("Strain")
-    plt.title("Gauge 1")
-    plt.grid()
-    plt.minorticks_on()
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex1, 1))(np.unique(M)), 'g-')
-    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
-    plt.show()
-    
-    plt.plot(M, ex2, 'b+')
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex2, 1))(np.unique(M)), 'g-')
-    plt.xlabel("Load, N")
-    plt.ylabel("Strain")
-    plt.title("Gauge 2")
-    plt.grid()
-    plt.minorticks_on()
-    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
-    plt.show()
-    
-    plt.plot(M, ex3, 'b+')
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex3, 1))(np.unique(M)), 'g-')
-    plt.xlabel("Load, N")
-    plt.ylabel("Strain")
-    plt.title("Gauge 3")
-    plt.grid()
-    plt.minorticks_on()
-    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
-    plt.show()
-    
-    plt.plot(M, ex4, 'b+')
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex4, 1))(np.unique(M)), 'g-')
-    plt.xlabel("Load, N")
-    plt.ylabel("Strain")
-    plt.title("Gauge 4")
-    plt.grid()
-    plt.minorticks_on()
-    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
-    plt.show()
-        
     deltaX = (max(M)-min(M))
     
     grad_ex1 = (np.poly1d(np.polyfit(M, ex1, 1))(np.unique(M))[-1]-np.poly1d(np.polyfit(M, ex1, 1))(np.unique(M))[0])/deltaX
@@ -126,6 +87,65 @@ def plotStrainData(m_array, ex1, ex2, ex3, ex4):
     grad_ex3 = (np.poly1d(np.polyfit(M, ex3, 1))(np.unique(M))[-1]-np.poly1d(np.polyfit(M, ex3, 1))(np.unique(M))[0])/deltaX
     grad_ex4 = (np.poly1d(np.polyfit(M, ex4, 1))(np.unique(M))[-1]-np.poly1d(np.polyfit(M, ex4, 1))(np.unique(M))[0])/deltaX
     
+    pred_plot_y1 = [x*2e-06 for x in pred_plot_x]
+    pred_plot_y2 = [x*3.63e-06 for x in pred_plot_x]
+    pred_plot_y3 = [x*-2.28e-06 for x in pred_plot_x]
+    pred_plot_y4 = [x*-3.69e-06 for x in pred_plot_x]
+
+    
+    plt.plot(M, ex1, 'b+', label = "Raw Data")
+    plt.errorbar(M, ex1, yerr = yerr4, fmt = "none", ecolor = "c")
+    plt.xlabel("Load, N")
+    plt.ylabel("Strain")
+    plt.title("Gauge 1")
+    plt.grid()
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex1, 1))(np.unique(M)), 'g-', label = "Best Fit")
+    plt.plot(pred_plot_x, pred_plot_y1, "r-", label = "Predicted")
+    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    plt.legend(loc = "upper left")
+    plt.savefig("Gauge1 graph.png")
+    plt.show()
+    
+    plt.plot(M, ex2, 'b+', label = "Raw Data")
+    plt.errorbar(M, ex2, yerr = yerr4, fmt = "none", ecolor = "c")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex2, 1))(np.unique(M)), 'g-', label = "Best Fit")
+    plt.plot(pred_plot_x, pred_plot_y2, "r-", label = "Predicted")
+    plt.xlabel("Load, N")
+    plt.ylabel("Strain")
+    plt.title("Gauge 2")
+    plt.grid()
+    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    plt.legend(loc = "upper left")
+    plt.savefig("Gauge2 graph.png")
+    plt.show()
+    
+    plt.plot(M, ex3, 'b+', label = "Raw Data")
+    plt.errorbar(M, ex3, yerr = yerr4, fmt = "none", ecolor = "c")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex3, 1))(np.unique(M)), 'g-', label = "Best Fit")
+    plt.plot(pred_plot_x, pred_plot_y3, "r-", label = "Predicted")
+    plt.xlabel("Load, N")
+    plt.ylabel("Strain")
+    plt.title("Gauge 3")
+    plt.grid()
+    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    plt.legend()
+    plt.savefig("Gauge3 graph.png")
+    plt.show()
+    
+    plt.plot(M, ex4, 'b+', label = "Raw Data")
+    plt.errorbar(M, ex4, yerr = yerr4, fmt = "none", ecolor = "c")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, ex4, 1))(np.unique(M)), 'g-', label = "Best Fit")
+    plt.plot(pred_plot_x, pred_plot_y4, "r-", label = "Predicted")
+    plt.xlabel("Load, N")
+    plt.ylabel("Strain")
+    plt.title("Gauge 4")
+    plt.grid()
+    #plt.errorbar(M, ex4, yerr4)
+    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    plt.legend()
+    plt.savefig("Gauge4 graph.png")
+    plt.show()
+        
     # round(sum(col1)/len(col1), 2), round(sum(col2)/len(col2), 2), round(sum(col3)/len(col3), 2), round(sum(col4)/len(col4), 2)
     return grad_ex1, grad_ex2, grad_ex3, grad_ex4
 
@@ -189,28 +209,36 @@ def plotDeflectData(m_array, vb, wb):
 
     M = [9.81*x for x in m_array]
     
-    plt.plot(M, vb, 'g+', label = "Vertical")
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, vb, 1))(np.unique(M)), 'g-')
-
-    plt.plot(M, wb, 'b+', label = "Horizontal")
-    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, wb, 1))(np.unique(M)), 'b-')
-    
-    plt.title("Variation in Tip Deflection for Increasing \nLoad")
+    plt.plot(M, vb, 'b+', label = "Raw Data")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, vb, 1))(np.unique(M)), 'g-', label = "Best Fit")
+    plt.title("Vertical Tip Deflection")
     plt.ylabel("Deflection, mm")
     plt.xlabel("Load, N")
     plt.grid(which = "major")
     plt.minorticks_on()
-    plt.legend(loc=2)
-    plt.savefig("deflect vs load.png")
+    plt.legend(loc = "upper left")
+    plt.savefig("Verticle Deflection.png")
     plt.show()
     
-    plt.plot(vb, wb, "k+")
-    plt.xlabel("Vertical Deflection, mm")
-    plt.ylabel("Horizontal Deflection, mm")
-    plt.title("Vertical and Horizontal Deflection Combined \nPlot")
+    plt.plot(M, wb, 'b+', label = "Raw Data")
+    plt.plot(np.unique(M), np.poly1d(np.polyfit(M, wb, 1))(np.unique(M)), 'g-', label = "Best Fit")
+    plt.title("Horizontal Tip Deflection")
+    plt.ylabel("Deflection, mm")
+    plt.xlabel("Load, N")
     plt.grid(which = "major")
     plt.minorticks_on()
-    plt.savefig("Vertical Horizontal Plot.png")
+    plt.legend(loc = "upper left")
+    plt.savefig("Horizontal Deflection.png")
+    plt.show()
+    
+    plt.plot(vb, wb, "b+")
+    plt.grid()
+    plt.minorticks_on()
+    plt.grid(which ="minor")
+    plt.title("Comparison between Vertical and Horizontal \nDeflection")
+    plt.xlabel("Vertical Deflection, mm")
+    plt.ylabel("Horizontal Deflection, mm")
+    plt.savefig("Deflection comparison.png")
     plt.show()
     
     deltaX = (max(M)-min(M))
@@ -221,9 +249,7 @@ def plotDeflectData(m_array, vb, wb):
     return round(grad_vb, 3), round(grad_wb, 3)
     
 
-def beta(l_beam, Iy, Iz, Iyz, E, vb):
-    
-    M = [9.81*x for x in m_array]
+def beta(l_beam, Iy, Iz, Iyz, E):
     
     beta_v = ((l_beam**3)*sum(Iy))/(3*(sum(Iy)*sum(Iz)-(sum(Iyz)**2)))
     beta_w = (-(l_beam**3)*sum(Iyz))/(3*(sum(Iy)*sum(Iz)-(sum(Iyz)**2)))
@@ -231,10 +257,6 @@ def beta(l_beam, Iy, Iz, Iyz, E, vb):
     slopePred_vb = beta_v/E
     slopePred_wb = beta_w/E
 
-    for i, P in enumerate(M):
-        YoungsModV = M[i]*beta_v/vb[i]
-        YoungsModW = M[i]*beta_w/wb[i]
-        E_vb.append(YoungsModV)
-        E_wb.append(YoungsModW)
+    print(beta_v, beta_w)
     
-    return round(sum(E_vb)/len(E_vb), 2), round(sum(E_wb)/len(E_wb), 2)
+    return round(slopePred_vb, 3), round(slopePred_wb, 3)
